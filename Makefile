@@ -27,6 +27,7 @@ $(MAIN_T): $(MAIN_O)
 .c.o:
 	$(CC) $(CCFLAGS) -o $@ $< $(INCS)
 
-lua_$(NAME).o: lua_pd.h lua_$(NAME).h lua_$(NAME)_flags.c \
-    lua_$(NAME)_errors.c lua_$(NAME)_ip4_tcp.c lua_$(NAME)_ip6_tcp.c \
+lua_$(NAME).o: lua_pd.h lua_$(NAME).h \
+    lua_$(NAME)_flags.c lua_$(NAME)_errors.c \
+    lua_$(NAME)_ip4_tcp.c lua_$(NAME)_ip6_tcp.c \
     lua_$(NAME)_epoll.c

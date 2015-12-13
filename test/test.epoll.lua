@@ -5,6 +5,6 @@ local trace = require "trace"
 
 --
 
-local ep = assert(net.epoll(0))
+local ep = assert(net.epoll())
 
 trace(getmetatable(ep))
