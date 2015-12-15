@@ -8,13 +8,6 @@
 
 //
 
-static uint64_t inc_id( void ) {
-    static volatile uint64_t id = 1;
-    return __sync_add_and_fetch(&id, 1);
-}
-
-//
-
 LUAMOD_API int luaopen_net( lua_State *L ) {
     lua_newmt(L, LUA_MT_NET_IP4_TCP_SOCKET, __ip4_tcp_socket_index, lua_net_ip4_tcp_socket_gc);
     lua_newmt(L, LUA_MT_NET_EPOLL, __epoll_index, lua_net_epoll_gc);
@@ -40,4 +33,11 @@ LUAMOD_API int luaopen_net( lua_State *L ) {
     lua_setfield(L, -2, "ip6");
 
     return 1;
+}
+
+//
+
+static uint64_t inc_id( void ) {
+    static volatile uint64_t id = 1;
+    return __sync_add_and_fetch(&id, 1);
 }

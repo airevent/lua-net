@@ -14,8 +14,9 @@
 
 //
 
-#define LUA_MT_NET_IP4_TCP_SOCKET "net.ip4.tcp.socket"
-#define LUA_MT_NET_EPOLL "net.epoll"
+#define LUA_MT_NET_EPOLL "mt.net.epoll"
+#define LUA_MT_NET_IP4_TCP_SOCKET "mt.net.ip4.tcp.socket"
+#define LUA_MT_NET_IP6_TCP_SOCKET "mt.net.ip6.tcp.socket"
 
 #define IP4_LOCALHOST "127.0.0.1"
 #define IP4_TCP_SOCKET_BIND_DEFAULT_INTERFACE IP4_LOCALHOST
@@ -40,8 +41,6 @@ typedef struct lua_ud_socket {
 
 LUAMOD_API int luaopen_net( lua_State *L );
 
-static uint64_t inc_id( void );
-
 static int lua_net_epoll( lua_State *L );
 static int lua_net_epoll_start( lua_State *L );
 static int lua_net_epoll_gc( lua_State *L );
@@ -63,6 +62,10 @@ static int lua_net_ip4_tcp_socket_recv( lua_State *L );
 static int lua_net_ip4_tcp_socket_send( lua_State *L );
 static int lua_net_ip4_tcp_socket_shutdown( lua_State *L );
 static int lua_net_ip4_tcp_socket_set( lua_State *L );
+
+//
+
+static uint64_t inc_id( void );
 
 //
 
