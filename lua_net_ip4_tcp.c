@@ -209,8 +209,7 @@ static int lua_net_ip4_tcp_socket_recv( lua_State *L ) {
         lua_errno(L);
     } else {
         lua_pushlstring(L, read_buff, n);
-        lua_pushnumber(L, n);
-        return 2;
+        return 1;
     }
 }
 

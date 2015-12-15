@@ -38,6 +38,6 @@ LUAMOD_API int luaopen_net( lua_State *L ) {
 //
 
 static uint64_t inc_id( void ) {
-    static volatile uint64_t id = 1;
+    static volatile uint64_t id = 0;
     return __sync_add_and_fetch(&id, 1);
 }
