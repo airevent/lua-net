@@ -64,8 +64,6 @@ static int lua_net_ip4_tcp_socket_send( lua_State *L );
 static int lua_net_ip4_tcp_socket_shutdown( lua_State *L );
 static int lua_net_ip4_tcp_socket_set( lua_State *L );
 
-//
-
 static uint64_t inc_id( void );
 
 //
