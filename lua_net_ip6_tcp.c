@@ -49,7 +49,9 @@ static int lua_net_ip6_tcp_socket( lua_State *L ) {
 
     luaL_setmetatable(L, LUA_MT_NET_IP6_TCP_SOCKET);
 
-    return 1;
+    lua_pushinteger(L, sock->fd);
+
+    return 2;
 }
 
 static int lua_net_ip6_tcp_socket_gc( lua_State *L ) {
@@ -189,7 +191,9 @@ static int lua_net_ip6_tcp_socket_accept( lua_State *L ) {
 
     luaL_setmetatable(L, LUA_MT_NET_IP6_TCP_SOCKET);
 
-    return 1;
+    lua_pushinteger(L, fd);
+
+    return 2;
 };
 
 static int lua_net_ip6_tcp_socket_recv( lua_State *L ) {
@@ -209,7 +213,8 @@ static int lua_net_ip6_tcp_socket_recv( lua_State *L ) {
         lua_errno(L);
     } else {
         lua_pushlstring(L, read_buff, n);
-        return 1;
+        lua_pushnumber(L, n);
+        return 2;
     }
 }
 
