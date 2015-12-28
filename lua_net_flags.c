@@ -64,3 +64,14 @@ lua_add_int_const(L, SO_TIMESTAMP);
 lua_add_int_const(L, SO_TYPE);
 lua_add_int_const(L, SO_BUSY_POLL);
 lua_add_int_const(L, O_NONBLOCK);
+
+// epoll stuff
+lua_add_int_const(L, EPOLLIN);
+lua_add_int_const(L, EPOLLOUT);
+lua_add_int_const(L, EPOLLRDHUP);
+lua_add_int_const(L, EPOLLPRI);
+lua_add_int_const(L, EPOLLERR);
+lua_add_int_const(L, EPOLLHUP);
+lua_add_int_const(L, EPOLLET);
+lua_add_int_const(L, EPOLLONESHOT);
+lua_add_int_const(L, EPOLLWAKEUP);

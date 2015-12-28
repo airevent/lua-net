@@ -41,6 +41,30 @@
 #define UNIX_SOCKET_LISTEN_DEFAULT_BACKLOG 1024
 #define UNIX_SOCKET_RECV_BUFFER_LEN 4096
 
+#define LUA_EPOLL_DEFAULT_QUEUE_SIZE 4096
+
+//
+
+#define lua_pushsockerr( L, fd ) { \
+    int optval; \
+    socklen_t optlen = sizeof(optval); \
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, &optval, &optlen); \
+    lua_pushstring(L, strerror(optval)); \
+    lua_pushnumber(L, optval); \
+}
+
+#define lua_epoll_pcall( L, argsn ) { \
+    int r = lua_pcall(L, argsn, 0, 0); /* nresults=0, no results needed */ \
+    if ( r != LUA_OK ) { /* callback call error, index -1 ⇒ es */ \
+        lua_pushvalue(L, 6); /* arg #6 is onerror */ \
+        lua_insert(L, -2); \
+        lua_pushnil(L); /* nil */ \
+        lua_insert(L, -2); \
+        lua_pushnumber(L, -1); /* en */ \
+        lua_call(L, 3, 0); /* onerror(nil, es, en) */ \
+    } \
+}
+
 //
 
 typedef struct lua_ud_socket {
