@@ -168,6 +168,7 @@ static int lua_net_ip4_tcp_socket_listen( lua_State *L ) {
 
 static int lua_net_ip4_tcp_socket_accept( lua_State *L ) {
     lua_ud_socket *sock = luaL_checkudata(L, 1, LUA_MT_NET_IP4_TCP_SOCKET);
+    int nonblock = luaL_optinteger(L, 2, 0) ? SOCK_NONBLOCK : 0;
 
     if ( sock->fd < 0 ) {
         lua_fail(L, "socket is dead", 0);
@@ -179,11 +180,17 @@ static int lua_net_ip4_tcp_socket_accept( lua_State *L ) {
         lua_errno(L);
     }
 
+    if ( nonblock ) { // crunch for missing accept4
+        if ( fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) | O_NONBLOCK) == -1 ) {
+            lua_errno(L);
+        }
+    }
+
     lua_ud_socket *client = (lua_ud_socket *)lua_newuserdata(L, sizeof(lua_ud_socket));
 
     if ( !client ) {
         close(fd);
-        lua_fail(L, "lua_ud_socket alloc failed", -2);
+        lua_fail(L, "lua_ud_socket alloc failed", 0);
     }
 
     client->id = inc_id();
@@ -275,9 +282,9 @@ static int lua_net_ip4_tcp_socket_set( lua_State *L ) {
 
     switch ( optname ) {
         case O_NONBLOCK:
-            optval = !luaL_checkinteger(L, 3);
+            optval = luaL_checkinteger(L, 3);
             flags = fcntl(fd, F_GETFL);
-            r = fcntl(fd, F_SETFL, optval ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK));
+            r = fcntl(fd, F_SETFL, optval ? (flags | O_NONBLOCK) : (flags & ~O_NONBLOCK));
             break;
         case SO_RCVTIMEO:
         case SO_SNDTIMEO:
